@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using NamiSic.Application.Common.Interfaces;
-using NamiSic.Infrastructure.Mappings;
 using NamiSic.Infrastructure.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;

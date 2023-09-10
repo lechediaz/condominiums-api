@@ -80,7 +80,7 @@ public class VehicleEntryExitService : IVehicleEntryExitService
         try
         {
             VehicleDto vehicle = vehicleByPlateNumberResult.Extra!;
-            VehicleEntryExit newRecord = _mapper.Map<VehicleEntryExit>(createVehicleEntryExitDto);
+            VehicleEntryExitRecord newRecord = _mapper.Map<VehicleEntryExitRecord>(createVehicleEntryExitDto);
             newRecord.CreatedBy = userName;
             newRecord.VehicleType = vehicle.Type;
             await _vehicleEntryExitStore.InsertOneAsync(newRecord);
@@ -101,7 +101,7 @@ public class VehicleEntryExitService : IVehicleEntryExitService
 
         try
         {
-            List<VehicleEntryExit> records = await _vehicleEntryExitStore.FilterAsync(filters);
+            List<VehicleEntryExitRecord> records = await _vehicleEntryExitStore.FilterAsync(filters);
             List<VehicleEntryExitDto> recordsMapped = _mapper.Map<List<VehicleEntryExitDto>>(records);
             _logger.LogInformation("Vehicle entry and exit records correctly consulted.");
             return new ServiceResult<List<VehicleEntryExitDto>>() { Extra = recordsMapped };

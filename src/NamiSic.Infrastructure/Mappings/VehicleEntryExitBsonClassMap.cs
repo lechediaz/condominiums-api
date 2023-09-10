@@ -3,7 +3,7 @@ using NamiSic.Domain.Entities;
 
 namespace NamiSic.Infrastructure.Mappings;
 
-public class VehicleEntryExitBsonClassMap : BsonClassMap<VehicleEntryExit>
+public class VehicleEntryExitBsonClassMap : BsonClassMap<VehicleEntryExitRecord>
 {
     public VehicleEntryExitBsonClassMap()
     {

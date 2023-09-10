@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
+using NamiSic.Application.Residents.Queries.GetResidentsFiltered;
 using NamiSic.Domain.Entities;
 using NamiSic.Infrastructure.Common.Interfaces;
 
@@ -15,7 +16,7 @@ public interface IResidentStore : IStore<Resident>
     /// </summary>
     /// <param name="filters">Filters to apply.</param>
     /// <returns>Execution result with Resident information in Extra property if found.</returns>
-    Task<List<Resident>> GetAsync(GetResidentsQuery filters);
+    Task<List<Resident>> GetAsync(GetResidentsFilteredQuery filters);
 
     /// <summary>
     /// Allows to validate if a resident exists by its document type and document number.
@@ -63,7 +64,7 @@ public class ResidentStore : StoreBase<Resident>, IResidentStore
         return count > 0;
     }
 
-    public async Task<List<Resident>> GetAsync(GetResidentsQuery filters)
+    public async Task<List<Resident>> GetAsync(GetResidentsFilteredQuery filters)
     {
         FilterDefinitionBuilder<Resident> filterBuilder = Builders<Resident>.Filter;
         List<FilterDefinition<Resident>> composedFilters = new List<FilterDefinition<Resident>>();

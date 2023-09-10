@@ -8,30 +8,30 @@ namespace NamiSic.Api.Stores;
 /// <summary>
 /// Defines the custom methods to perform the storage of vehicle entry or exit.
 /// </summary>
-public interface IVehicleEntryExitStore : IStore<VehicleEntryExit>
+public interface IVehicleEntryExitStore : IStore<VehicleEntryExitRecord>
 {
     /// <summary>
     /// Allows to query vehicle entry and exit records by using filters.
     /// </summary>
     /// <param name="filters">filters to be performed in the query.</param>
     /// <returns>Records of vehicle entries and exits matching the given filters.</returns>
-    Task<List<VehicleEntryExit>> FilterAsync(VehicleEntryExitFilters filters);
+    Task<List<VehicleEntryExitRecord>> FilterAsync(VehicleEntryExitFilters filters);
 }
 
 /// <summary>
 /// Implements the custom methods to perform the storage of vehicle entry or exit.
 /// </summary>
-public class VehicleEntryExitStore : StoreBase<VehicleEntryExit>, IVehicleEntryExitStore
+public class VehicleEntryExitStore : StoreBase<VehicleEntryExitRecord>, IVehicleEntryExitStore
 {
     public VehicleEntryExitStore(IMongoDatabase database) : base("vehicle_entry_exit", database)
     {
     }
 
-    public Task<List<VehicleEntryExit>> FilterAsync(VehicleEntryExitFilters filters)
+    public Task<List<VehicleEntryExitRecord>> FilterAsync(VehicleEntryExitFilters filters)
     {
-        FilterDefinitionBuilder<VehicleEntryExit> filterBuilder = Builders<VehicleEntryExit>.Filter;
-        SortDefinition<VehicleEntryExit> sorting = Builders<VehicleEntryExit>.Sort.Descending(v => v.CreationDate);
-        var filterConditions = new List<FilterDefinition<VehicleEntryExit>>();
+        FilterDefinitionBuilder<VehicleEntryExitRecord> filterBuilder = Builders<VehicleEntryExitRecord>.Filter;
+        SortDefinition<VehicleEntryExitRecord> sorting = Builders<VehicleEntryExitRecord>.Sort.Descending(v => v.CreationDate);
+        var filterConditions = new List<FilterDefinition<VehicleEntryExitRecord>>();
 
         if (!string.IsNullOrEmpty(filters.CreatedBy))
         {
@@ -67,7 +67,7 @@ public class VehicleEntryExitStore : StoreBase<VehicleEntryExit>, IVehicleEntryE
             filterConditions.Add(filterBuilder.Lte(v => v.CreationDate, filters.EndCreationDate));
         }
 
-        FilterDefinition<VehicleEntryExit> compoundFilters = filterBuilder.And(filterConditions);
+        FilterDefinition<VehicleEntryExitRecord> compoundFilters = filterBuilder.And(filterConditions);
         return Collection.Find(compoundFilters).Sort(sorting).ToListAsync();
     }
 }
