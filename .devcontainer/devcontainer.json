@@ -17,12 +17,18 @@
     // },
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "dotnet restore src/Condominiums.Api/Condominiums.Api.csproj" 
+    "postCreateCommand": "dotnet restore src/NamiSic.Api/NamiSic.Api.csproj",
 
     // Configure tool-specific properties.
-    ,"customizations": {
+    "customizations": {
         "vscode": {
-            "extensions": ["ms-dotnettools.csdevkit"]
+            "extensions": [
+				"ms-dotnettools.csdevkit",
+				"mhutchie.git-graph",
+				"eamodio.gitlens",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"kreativ-software.csharpextensions"
+			]
         }
     }
 
