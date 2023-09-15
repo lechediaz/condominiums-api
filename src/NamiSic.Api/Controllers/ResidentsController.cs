@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using NamiSic.Api.Auth.Attributes;
-using NamiSic.Api.Models.DTOs.Residents;
 using NamiSic.Api.Services;
 using NamiSic.Api.Services.Base;
 
@@ -9,10 +8,8 @@ namespace NamiSic.Api.Controllers;
 /// <summary>
 /// Endpoints that allows to manage Residents.
 /// </summary>
-[ApiController]
-[Route("api/[controller]")]
 [AuthorizeRole(Constants.RoleNames.Administrator)]
-public class ResidentsController : ControllerBase
+public class ResidentsController : ApiControllerBase
 {
     private readonly IResidentService _residentService;
 

@@ -1,39 +1,10 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
+using NamiSic.Application.Common.Stores;
 using NamiSic.Application.Residents.Queries.GetResidentsFiltered;
 using NamiSic.Domain.Entities;
-using NamiSic.Infrastructure.Common.Interfaces;
 
 namespace NamiSic.Infrastructure.Stores;
-
-/// <summary>
-/// Defines the custom methods to perform the storage of residents.
-/// </summary>
-public interface IResidentStore : IStore<Resident>
-{
-    /// <summary>
-    /// Allows to get a list with all the residents.
-    /// </summary>
-    /// <param name="filters">Filters to apply.</param>
-    /// <returns>Execution result with Resident information in Extra property if found.</returns>
-    Task<List<Resident>> GetAsync(GetResidentsFilteredQuery filters);
-
-    /// <summary>
-    /// Allows to validate if a resident exists by its document type and document number.
-    /// Optionally an Id can be specyfied to ignore it.
-    /// </summary>
-    /// <param name="documentType">The resident's document type to search.</param>
-    /// <param name="documentNumber">The resident's document number to search.</param>
-    /// <param name="ignoreId">Optional resident's Id to ignore.</param>
-    /// <returns>True if the resident exist by its document type and document number.</returns>
-    Task<bool> ExistsByDocumentAsync(string documentType, string documentNumber, string? ignoreId = null);
-
-    /// <summary>
-    /// Allows to update a resident.
-    /// </summary>
-    /// <param name="resident">The resident information to update.</param>
-    Task UpdateOneAsync(Resident resident);
-}
 
 /// <summary>
 /// Implements the custom methods to perform the storage of residents.
@@ -57,7 +28,7 @@ public class ResidentStore : StoreBase<Resident>, IResidentStore
         if (!string.IsNullOrEmpty(ignoreId))
         {
             ObjectId residentId = ObjectId.Parse(ignoreId);
-            filter = filterBuilder.And(filterBuilder.Ne(f => f.Id, residentId), baseFilter);
+            filter = filterBuilder.And(filterBuilder.Ne("Id", residentId), baseFilter);
         }
 
         long count = await Collection.CountDocumentsAsync(filter);

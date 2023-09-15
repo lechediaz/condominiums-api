@@ -1,33 +1,21 @@
 using MongoDB.Driver;
-using NamiSic.Api.Models.DTOs.VehiclesEntryExit;
-using NamiSic.Api.Stores.Base;
+using NamiSic.Application.Common.Stores;
+using NamiSic.Application.VehicleEntryExitRecords.Queries.GetVehicleEntryExitRecordsFiltered;
 using NamiSic.Domain.Entities;
+using NamiSic.Infrastructure.Stores;
 
 namespace NamiSic.Api.Stores;
 
 /// <summary>
-/// Defines the custom methods to perform the storage of vehicle entry or exit.
-/// </summary>
-public interface IVehicleEntryExitStore : IStore<VehicleEntryExitRecord>
-{
-    /// <summary>
-    /// Allows to query vehicle entry and exit records by using filters.
-    /// </summary>
-    /// <param name="filters">filters to be performed in the query.</param>
-    /// <returns>Records of vehicle entries and exits matching the given filters.</returns>
-    Task<List<VehicleEntryExitRecord>> FilterAsync(VehicleEntryExitFilters filters);
-}
-
-/// <summary>
 /// Implements the custom methods to perform the storage of vehicle entry or exit.
 /// </summary>
-public class VehicleEntryExitStore : StoreBase<VehicleEntryExitRecord>, IVehicleEntryExitStore
+public class VehicleEntryExitStore : StoreBase<VehicleEntryExitRecord>, IVehicleEntryExitRecordStore
 {
     public VehicleEntryExitStore(IMongoDatabase database) : base("vehicle_entry_exit", database)
     {
     }
 
-    public Task<List<VehicleEntryExitRecord>> FilterAsync(VehicleEntryExitFilters filters)
+    public Task<List<VehicleEntryExitRecord>> FilterAsync(GetVehicleEntryExitRecordsFilteredQuery filters)
     {
         FilterDefinitionBuilder<VehicleEntryExitRecord> filterBuilder = Builders<VehicleEntryExitRecord>.Filter;
         SortDefinition<VehicleEntryExitRecord> sorting = Builders<VehicleEntryExitRecord>.Sort.Descending(v => v.CreationDate);
